@@ -639,3 +639,42 @@ header {
   margin: 3px 0;
   font-size: 14px;
 }
+
+/* FIX FOOTER */
+
+.footer {
+  margin-top: 60px;
+  background: linear-gradient(135deg, #b03a5b, #e06b8a);
+  color: white;
+  padding: 40px 20px 20px;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+}
+
+/* خلي المحتوى بالنص */
+.footer-container {
+  max-width: 900px;
+  margin: auto;
+  text-align: center;
+}
+
+/* عنوان المتجر */
+.footer-brand h2 {
+  margin-bottom: 10px;
+  font-size: 22px;
+}
+
+/* النص */
+.footer-brand p {
+  line-height: 1.6;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* الجزء السفلي */
+.footer-bottom {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 13px;
+  opacity: 0.8;
+}

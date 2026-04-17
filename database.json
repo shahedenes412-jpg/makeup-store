@@ -1,0 +1,122 @@
+{
+  "products": [
+    {
+      "id": 6,
+      "name": "Strawberry Blush Set",
+      "price": 89.99,
+      "image": "/uploads/1776461819981-330953.jpeg",
+      "stock": 39
+    },
+    {
+      "id": 8,
+      "name": "Pupa Wonder Me Blush",
+      "price": 119.99,
+      "image": "/uploads/1776461864799-306938.jpeg",
+      "stock": 24
+    },
+    {
+      "id": 9,
+      "name": "Soft Pink Blush",
+      "price": 79.99,
+      "image": "/uploads/1776461890434-226123.jpeg",
+      "stock": 35
+    },
+    {
+      "id": 10,
+      "name": "Luxury Glow Blush",
+      "price": 129.99,
+      "image": "/uploads/1776461908509-513170.jpeg",
+      "stock": 20
+    },
+    {
+      "id": 11,
+      "name": "Milani Baked Blush",
+      "price": 109.99,
+      "image": "/uploads/1776461923055-50558.jpeg",
+      "stock": 29
+    },
+    {
+      "id": 12,
+      "name": "KIKO Foundation",
+      "price": 149.99,
+      "image": "/uploads/1776461940317-968269.jpeg",
+      "stock": 17
+    },
+    {
+      "id": 13,
+      "name": "Liquid Lipstick",
+      "price": 59.99,
+      "image": "/uploads/1776461967510-927011.jpeg",
+      "stock": 44
+    },
+    {
+      "id": 14,
+      "name": "Liquid Lipstick",
+      "price": 59.99,
+      "image": "/uploads/1776462124424-114955.jpg",
+      "stock": 44
+    },
+    {
+      "id": 15,
+      "name": "Glow Highlighter",
+      "price": 99.99,
+      "image": "/uploads/1776462164871-810573.jpg",
+      "stock": 30
+    },
+    {
+      "id": 18,
+      "name": "Volume Mascara",
+      "price": 89.99,
+      "image": "/uploads/1776462252103-731195.jpg",
+      "stock": 35
+    },
+    {
+      "id": 19,
+      "name": "Compact Powder",
+      "price": 84.99,
+      "image": "/uploads/1776462325175-701064.jpg",
+      "stock": 17
+    },
+    {
+      "id": 20,
+      "name": "Face Primer",
+      "price": 79.99,
+      "image": "/uploads/1776462385403-540600.jpg",
+      "stock": 21
+    }
+  ],
+  "cart": [
+    {
+      "id": 4,
+      "product_id": 6,
+      "quantity": 1
+    },
+    {
+      "id": 5,
+      "product_id": 8,
+      "quantity": 1
+    },
+    {
+      "id": 6,
+      "product_id": 12,
+      "quantity": 3
+    },
+    {
+      "id": 7,
+      "product_id": 11,
+      "quantity": 1
+    },
+    {
+      "id": 8,
+      "product_id": 13,
+      "quantity": 1
+    },
+    {
+      "id": 9,
+      "product_id": 14,
+      "quantity": 1
+    }
+  ],
+  "nextProductId": 21,
+  "nextCartId": 10
+}

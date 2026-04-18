@@ -124,7 +124,12 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
+        let total = 0;
+
         items.forEach(item => {
+
+          total += item.product.price * item.quantity;
+
           const div = document.createElement("div");
 
           div.innerHTML = `
@@ -147,6 +152,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
           cartContainer.appendChild(div);
         });
+
+        // ─── TOTAL ─────────────────────────────
+        const totalDiv = document.createElement("div");
+
+        totalDiv.innerHTML = `
+          <div style="margin-top:20px; font-size:22px; font-weight:bold; text-align:right;">
+            Toplam: ₺${total.toFixed(2)}
+          </div>
+        `;
+
+        cartContainer.appendChild(totalDiv);
+
       });
   }
 
@@ -175,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
     event.target.classList.add("active");
   }
 
-  // ─── Global Fix (مهم جداً) ─────────────────────
+  // ─── Global Fix ────────────────────────────────
   window.addToCart = addToCart;
   window.deleteProduct = deleteProduct;
   window.removeFromCart = removeFromCart;

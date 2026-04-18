@@ -678,3 +678,18 @@ header {
   font-size: 13px;
   opacity: 0.8;
 }
+/* خلي الصفحة بطول كامل */
+html, body {
+  height: 100%;
+}
+
+/* خلي الجسم flex */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* المحتوى يتمدد */
+.section {
+  flex: 1;
+}

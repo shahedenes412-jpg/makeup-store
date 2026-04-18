@@ -811,3 +811,54 @@ body {
   box-shadow: 0 3px 12px rgba(0,0,0,0.08);
   color: #e91e63;
 }
+
+/* 🔥 FINAL FIX — خليه آخر شي بالملف */
+
+/* GRID مضبوط */
+.products-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
+  gap: 25px !important;
+  padding: 20px !important;
+}
+
+/* الكرت */
+.product-card {
+  display: block !important;
+}
+
+/* الصورة */
+.product-image {
+  height: 200px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.product-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* الأزرار */
+.actions {
+  display: flex !important;
+  gap: 10px !important;
+}
+
+/* السلة */
+.cart-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 15px !important;
+}
+
+/* المجموع */
+.cart-total {
+  margin-top: 20px !important;
+  padding: 15px !important;
+  font-size: 22px !important;
+  font-weight: bold !important;
+  text-align: right !important;
+}

@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
           const outOfStock = p.stock <= 0;
 
-          // زر الحذف بس للأدمن
           const deleteBtn = isAdmin
             ? `<button class="btn-delete" onclick="deleteProduct(${p.id})">🗑️ Sil</button>`
             : "";
@@ -81,10 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.changeQty = function(productId, delta, maxStock) {
     let qty = (selectedQty[productId] || 1) + delta;
     if (qty < 1) qty = 1;
-    if (qty > maxStock) {
-      showToast("⚠️ Stok limiti aşıldı!");
-      qty = maxStock;
-    }
+    if (qty > maxStock) { showToast("⚠️ Stok limiti aşıldı!"); qty = maxStock; }
     selectedQty[productId] = qty;
     const el = document.getElementById("qty-" + productId);
     if (el) {
@@ -97,7 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // ─── Add to Cart ─────────────────────────────
   window.addToCart = function(id) {
     const qty = selectedQty[id] || 1;
-
     fetch("/api/cart", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -108,55 +103,31 @@ document.addEventListener("DOMContentLoaded", () => {
         selectedQty[id] = 1;
         const el = document.getElementById("qty-" + id);
         if (el) el.textContent = 1;
-
         loadCart();
         loadProducts();
         showToast(`✨ ${qty} adet ürün sepete eklendi`);
-
-        // ─── Cart badge bounce ───
         const badge = document.getElementById("cart-count");
-        if (badge) {
-          badge.classList.add("bounce");
-          setTimeout(() => badge.classList.remove("bounce"), 400);
-        }
+        if (badge) { badge.classList.add("bounce"); setTimeout(() => badge.classList.remove("bounce"), 400); }
       })
       .catch(() => showToast("⚠️ Bir hata oluştu"));
   };
 
-  // ─── Delete Product (admin only) ─────────────
+  // ─── Delete Product (admin) ──────────────────
   window.deleteProduct = function(id) {
     if (!confirm("Ürünü silmek istiyor musun?")) return;
-
-    fetch(`/api/products/${id}`, {
-      method: "DELETE",
-      headers: { admin: "1234" }
-    })
+    fetch(`/api/products/${id}`, { method: "DELETE", headers: { admin: "1234" } })
       .then(res => res.json())
-      .then(() => {
-        loadProducts();
-        loadCart();
-        showToast("🗑️ Ürün silindi");
-      })
+      .then(() => { loadProducts(); loadCart(); showToast("🗑️ Ürün silindi"); })
       .catch(err => console.error(err));
   };
 
-  // ─── Admin form ──────────────────────────────
   const form = document.getElementById("productForm");
   if (form) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-      const formData = new FormData(form);
-      fetch("/api/products", {
-        method: "POST",
-        headers: { admin: "1234" },
-        body: formData
-      })
+      fetch("/api/products", { method: "POST", headers: { admin: "1234" }, body: new FormData(form) })
         .then(res => res.json())
-        .then(() => {
-          form.reset();
-          showToast("✅ Ürün başarıyla eklendi!");
-          loadProducts();
-        })
+        .then(() => { form.reset(); showToast("✅ Ürün eklendi!"); loadProducts(); })
         .catch(() => showToast("⚠️ Ürün eklenemedi"));
     });
   }
@@ -168,10 +139,10 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("/api/cart")
       .then(res => res.json())
       .then(items => {
-        // ─── Badge ──────────────────────────────
         const totalQty = items.reduce((s, i) => s + (i.quantity || 1), 0);
         document.getElementById("cart-count").innerText = totalQty;
 
+        // امسح كل المحتوى
         cartContainer.innerHTML = "";
 
         if (items.length === 0) {
@@ -183,13 +154,14 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
+        // ─── قائمة المنتجات ──────────────────────
         const list = document.createElement("div");
         list.className = "cart-list";
 
         let grandTotal = 0;
 
         items.forEach(item => {
-          const qty      = item.quantity || 1;
+          const qty       = item.quantity || 1;
           const unitPrice = Number(item.product.price);
           const lineTotal = unitPrice * qty;
           grandTotal += lineTotal;
@@ -200,27 +172,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
           const div = document.createElement("div");
           div.className = "cart-item";
-          div.dataset.price = unitPrice;   // للتحديث الفوري
+          div.dataset.price = unitPrice;
 
           div.innerHTML = `
             <div class="cart-item-img">${imgHTML}</div>
-
             <div class="cart-item-info">
               <h3>${item.product.name}</h3>
               <p class="unit-price">Birim: ₺${unitPrice.toFixed(2)}</p>
             </div>
-
             <div class="cart-qty-control">
               <button class="cart-qty-btn" onclick="changeCartQty(${item.id}, -1)">−</button>
               <span class="cart-qty-val" id="cqty-${item.id}">${qty}</span>
               <button class="cart-qty-btn" onclick="changeCartQty(${item.id}, +1)">+</button>
             </div>
-
-            <div class="cart-line-total" id="cprice-${item.id}">
-              ₺${lineTotal.toFixed(2)}
-            </div>
-
-            <button class="cart-remove" onclick="removeFromCart(${item.id})">✕</button>
+            <div class="cart-line-total" id="cprice-${item.id}">₺${lineTotal.toFixed(2)}</div>
+            <button class="cart-remove" onclick="removeFromCart(${item.id})" title="Çıkar">✕</button>
           `;
 
           list.appendChild(div);
@@ -228,9 +194,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         cartContainer.appendChild(list);
 
-        // ─── Summary ────────────────────────────
+        // ─── Summary Card ────────────────────────
+        // هاد هو العنصر المُصلَح — نحكيه مباشرة على cartContainer
         const summary = document.createElement("div");
         summary.className = "cart-summary";
+        summary.id = "cart-summary-box";
+
         summary.innerHTML = `
           <div class="cart-summary-row">
             <span>Toplam Ürün</span>
@@ -244,42 +213,40 @@ document.addEventListener("DOMContentLoaded", () => {
             ✨ Siparişi Tamamla
           </button>
         `;
+
         cartContainer.appendChild(summary);
       })
       .catch(err => console.error("Sepet yüklenemedi:", err));
   }
 
-  // ─── Change Cart Qty ─────────────────────────
+  // ─── Change Cart Qty (instant UI) ────────────
   window.changeCartQty = function(cartItemId, delta) {
-    const qtyEl    = document.getElementById("cqty-" + cartItemId);
-    const priceEl  = document.getElementById("cprice-" + cartItemId);
+    const qtyEl   = document.getElementById("cqty-" + cartItemId);
+    const priceEl = document.getElementById("cprice-" + cartItemId);
     if (!qtyEl) return;
 
     const currentQty = parseInt(qtyEl.textContent) || 1;
     const newQty     = currentQty + delta;
 
     if (newQty < 1) {
-      if (confirm("Ürünü sepetten çıkarmak istiyor musun?")) {
-        removeFromCart(cartItemId);
-      }
+      if (confirm("Ürünü sepetten çıkarmak istiyor musun?")) removeFromCart(cartItemId);
       return;
     }
 
-    // Optimistic UI update
+    // Instant UI
     qtyEl.textContent = newQty;
     qtyEl.style.transform = "scale(1.4)";
     setTimeout(() => qtyEl.style.transform = "scale(1)", 180);
 
     if (priceEl) {
-      const card      = qtyEl.closest(".cart-item");
+      const card = qtyEl.closest(".cart-item");
       const unitPrice = card ? parseFloat(card.dataset.price) : 0;
       priceEl.textContent = "₺" + (unitPrice * newQty).toFixed(2);
     }
 
-    // Recalculate grand total live
     recalcGrandTotal();
 
-    // PATCH API
+    // API
     fetch(`/api/cart/${cartItemId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -287,45 +254,30 @@ document.addEventListener("DOMContentLoaded", () => {
     })
       .then(res => res.json())
       .then(() => {
-        // badge update
-        fetch("/api/cart")
-          .then(r => r.json())
-          .then(items => {
-            const t = items.reduce((s, i) => s + (i.quantity || 1), 0);
-            document.getElementById("cart-count").innerText = t;
-          });
+        // حدّث الـ badge فقط
+        const totalQty = Array.from(document.querySelectorAll(".cart-qty-val"))
+          .reduce((s, el) => s + (parseInt(el.textContent) || 1), 0);
+        document.getElementById("cart-count").innerText = totalQty;
       })
-      .catch(() => loadCart()); // fallback
+      .catch(() => loadCart());
   };
 
   function recalcGrandTotal() {
     let total = 0;
     document.querySelectorAll(".cart-item").forEach(card => {
       const price = parseFloat(card.dataset.price) || 0;
-      const qtyEl = card.querySelector(".cart-qty-val");
-      const qty   = qtyEl ? parseInt(qtyEl.textContent) || 1 : 1;
+      const qty   = parseInt(card.querySelector(".cart-qty-val")?.textContent) || 1;
       total += price * qty;
     });
     const el = document.getElementById("grand-total");
     if (el) el.textContent = "₺" + total.toFixed(2);
-
-    // badge total
-    let totalQty = 0;
-    document.querySelectorAll(".cart-qty-val").forEach(el => {
-      totalQty += parseInt(el.textContent) || 1;
-    });
-    document.getElementById("cart-count").innerText = totalQty;
   }
 
   // ─── Remove from Cart ────────────────────────
   window.removeFromCart = function(id) {
     fetch(`/api/cart/${id}`, { method: "DELETE" })
       .then(res => res.json())
-      .then(() => {
-        loadCart();
-        loadProducts();
-        showToast("🗑️ Ürün sepetten çıkarıldı");
-      })
+      .then(() => { loadCart(); loadProducts(); showToast("🗑️ Ürün sepetten çıkarıldı"); })
       .catch(err => console.error(err));
   };
 
@@ -335,10 +287,8 @@ document.addEventListener("DOMContentLoaded", () => {
   window.showTab = function(tabName) {
     document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
     document.querySelectorAll(".nav-tab").forEach(b => b.classList.remove("active"));
-
     document.getElementById("tab-" + tabName)?.classList.add("active");
     document.querySelector(`.nav-tab[onclick*="${tabName}"]`)?.classList.add("active");
-
     if (tabName === "cart")     loadCart();
     if (tabName === "products") loadProducts();
   };

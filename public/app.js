@@ -156,11 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // ─── TOTAL ─────────────────────────────
         const totalDiv = document.createElement("div");
 
-        totalDiv.innerHTML = `
-          <div style="margin-top:20px; font-size:22px; font-weight:bold; text-align:right;">
-            Toplam: ₺${total.toFixed(2)}
-          </div>
-        `;
+        totalDiv.innerHTML = `<div class="cart-total">Toplam: ₺${total.toFixed(2)}</div>`;
 
         cartContainer.appendChild(totalDiv);
 

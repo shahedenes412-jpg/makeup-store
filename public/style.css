@@ -862,3 +862,25 @@ body {
   font-weight: bold !important;
   text-align: right !important;
 }
+
+
+/* ═════════ FINAL GRID FIX ═════════ */
+
+/* وسّع الصفحة */
+.section {
+  max-width: 1400px !important;
+}
+
+/* خلي الشبكة ذكية */
+.products-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
+  gap: 25px !important;
+}
+
+/* خفف حجم الكرت */
+.product-card {
+  width: 100% !important;
+  max-width: 280px !important;
+  margin: auto !important;
+}

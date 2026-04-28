@@ -1,96 +1,179 @@
 <!DOCTYPE html>
+<!-- بتقول للمتصفح: هاد الملف HTML5، أحدث نسخة من HTML -->
+
 <html lang="tr">
+<!-- بداية الصفحة كلها، lang="tr" تقول إن لغة المحتوى تركية (مفيد لمحركات البحث وقارئات الشاشة) -->
 
 <head>
+<!-- قسم الـ head = المعلومات الخفية عن الصفحة، ما بتظهر للمستخدم مباشرة -->
+
   <meta charset="UTF-8" />
+  <!-- حدد ترميز الحروف، UTF-8 يدعم كل اللغات والرموز بما فيها العربية والتركية والإيموجي -->
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- اجعل الصفحة تتكيف مع حجم شاشة الموبايل، بدونها الصفحة بتبان صغيرة جداً على الموبايل -->
+
   <title>Glam Store | Makyaj Mağazası</title>
+  <!-- هاد هو العنوان اللي بيظهر على تاب المتصفح فوق -->
 
   <link
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap"
     rel="stylesheet" />
+  <!-- جيب خطين من Google Fonts:
+       - Cormorant Garamond: خط أنيق كلاسيكي للعناوين
+       - DM Sans: خط عصري واضح للنصوص العادية -->
 
   <link rel="stylesheet" href="style.css" />
+  <!-- ربط ملف الـ CSS الخاص فينا، فيه كل التصميم والألوان والأشكال -->
+
 </head>
 
 <body>
+<!-- هون بيبدأ المحتوى الظاهر للمستخدم على الصفحة -->
 
-  <!-- HEADER -->
+
+  <!-- ══════════════════════════════════════════════════════
+       الهيدر (الشريط العلوي)
+  ══════════════════════════════════════════════════════ -->
   <header>
+  <!-- شريط علوي ثابت بيظهر دايماً فوق الصفحة -->
+
     <div class="logo">
+    <!-- قسم الشعار (اللوغو) على الشمال -->
+
       <div class="logo-icon">💄</div>
+      <!-- أيقونة أحمر شفاه كشعار مرئي للمتجر -->
+
       <div class="logo-text">
         Glam Store
         <span class="logo-sub">Makyaj Mağazası</span>
+        <!-- اسم المتجر، وتحته span صغير كتاجلاين "متجر المكياج" -->
       </div>
+
     </div>
 
     <button class="cart-btn" onclick="showTab('cart')">
+    <!-- زر السلة على اليمين، لما تضغط عليه بيروح لتبويب السلة -->
+
       🛒 Sepetim
+      <!-- نص الزر "سلتي" -->
+
       <span class="cart-badge" id="cart-count">0</span>
+      <!-- هاد هو الرقم الأحمر الصغير اللي بيظهر على أيقونة السلة
+           id="cart-count" عشان app.js يقدر يحدث الرقم هاد برمجياً -->
     </button>
+
   </header>
 
 
-
-  <!-- NAV -->
+  <!-- ══════════════════════════════════════════════════════
+       شريط التنقل (التبويبات)
+  ══════════════════════════════════════════════════════ -->
   <nav class="nav-tabs">
+  <!-- شريط التنقل بين صفحة المنتجات وصفحة السلة -->
+
     <button class="nav-tab active" onclick="showTab('products')">🛍️ Ürünler</button>
+    <!-- زر "المنتجات"، class="active" يعني هاد التبويب مفتوح بالأصل عند تحميل الصفحة -->
+
     <button class="nav-tab" onclick="showTab('cart')">🛒 Sepet</button>
+    <!-- زر "السلة"، ما عنده active لأنه مش مفتوح بالأصل -->
+
   </nav>
 
 
-
-  <!-- PRODUCTS -->
+  <!-- ══════════════════════════════════════════════════════
+       تبويب المنتجات
+  ══════════════════════════════════════════════════════ -->
   <div id="tab-products" class="section active">
+  <!-- هاد القسم كله بيمثل صفحة المنتجات
+       id="tab-products" عشان showTab() تقدر تظهره وتخفيه
+       class="active" يعني ظاهر بالأصل -->
+
     <div class="page-header">
+    <!-- عنوان الصفحة والوصف تحته -->
+
       <h1 class="page-title">Ürünlerimiz</h1>
+      <!-- العنوان الرئيسي "منتجاتنا" -->
+
       <p class="page-sub">Favori ürününüzü seçin ve sepete ekleyin</p>
+      <!-- نص صغير توضيحي "اختر منتجك المفضل وأضفه للسلة" -->
+
     </div>
 
     <div class="products-grid" id="products"></div>
+    <!-- هاد هو المكان الفاضي اللي app.js رح يحشيه ببطاقات المنتجات
+         id="products" هو اللي استخدمناه بالجافاسكريبت:
+         document.getElementById("products") -->
+
   </div>
 
 
-
-  <!-- CART -->
+  <!-- ══════════════════════════════════════════════════════
+       تبويب السلة
+  ══════════════════════════════════════════════════════ -->
   <div id="tab-cart" class="section">
+  <!-- هاد القسم كله بيمثل صفحة السلة
+       ما عنده class="active" يعني مخفي بالأصل -->
+
     <div class="page-header">
       <h1 class="page-title">🛒 Sepetim</h1>
       <p class="page-sub">Seçtiğiniz ürünler</p>
+      <!-- عنوان "سلتي" ووصف "المنتجات اللي اخترتها" -->
     </div>
 
     <div class="cart-list" id="cart"></div>
+    <!-- المكان الفاضي اللي app.js رح يحشيه بعناصر السلة
+         id="cart" هو اللي استخدمناه:
+         document.getElementById("cart") -->
+
   </div>
 
 
+  <!-- ══════════════════════════════════════════════════════
+       الفوتر (الشريط السفلي)
+  ══════════════════════════════════════════════════════ -->
+  <footer class="footer">
 
-  <!-- FOOTER -->
-<footer class="footer">
+    <div class="footer-container">
 
-  <div class="footer-container">
+      <div class="footer-brand">
+      <!-- قسم هوية المتجر بالفوتر -->
 
-    <div class="footer-brand">
-      <h2>💄 Glam Store</h2>
-      <p>
-        En trend makyaj ürünleriyle güzelliğinizi ön plana çıkarın.<br>
-        Glam Store ile her an ışıltınızı yansıtın ✨
-      </p>
+        <h2>💄 Glam Store</h2>
+        <!-- اسم المتجر -->
+
+        <p>
+          En trend makyaj ürünleriyle güzelliğinizi ön plana çıkarın.<br>
+          <!-- "أبرزي جمالك بأحدث منتجات المكياج" -->
+          Glam Store ile her an ışıltınızı yansıtın ✨
+          <!-- "مع Glam Store أشعيي دائماً" -->
+        </p>
+
+      </div>
+
     </div>
 
-  </div>
+    <div class="footer-bottom">
+    <!-- الشريط الأصغر في أسفل الفوتر -->
 
-  <div class="footer-bottom">
-    © 2026 Glam Store | Tüm hakları saklıdır <br>
-    Tasarım: <strong>Mühendis Shahed Naser</strong>
-  </div>
+      © 2026 Glam Store | Tüm hakları saklıdır <br>
+      <!-- "© 2026 Glam Store | جميع الحقوق محفوظة" -->
 
-</footer>
+      Tasarım: <strong>Mühendis Shahed Naser</strong>
+      <!-- "التصميم: المهندس شاهد ناصر" -->
+
+    </div>
+
+  </footer>
 
 
-  <!-- SCRIPT -->
+  <!-- ══════════════════════════════════════════════════════
+       ربط ملف الجافاسكريبت
+  ══════════════════════════════════════════════════════ -->
   <script src="app.js"></script>
+  <!-- هاد السطر بيشغل ملف app.js اللي فيه كل المنطق
+       حطيناه في آخر الـ body عشان يكون كل الـ HTML محمّل قبل ما يشتغل الكود
+       لو حطيناه بالـ head كان الجافاسكريبت ما بيلاقي العناصر لأنها لسا ما اتحملت -->
 
 </body>
-
 </html>
